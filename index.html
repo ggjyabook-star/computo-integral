@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%230A0C0E%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2214%22%20fill%3D%22none%22%20stroke%3D%22%23D08A4F%22%20stroke-width%3D%225%22%2F%3E%3Cpath%20d%3D%22M0%2032h18M46%2032h18%22%20stroke%3D%22%23D08A4F%22%20stroke-width%3D%224%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20142%20142%22%3E%3Crect%20width%3D%22142%22%20height%3D%22142%22%20fill%3D%22%230A0C0E%22%2F%3E%3Cg%20transform%3D%22translate(71%2C71)%20rotate(45)%20translate(-50%2C-50)%22%20stroke%3D%22%230A0C0E%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M0%200%20L50%200%20L50%2018%20C60%2014%2060%2036%2050%2032%20L50%2050%20L32%2050%20C36%2060%2014%2060%2018%2050%20L0%2050%20Z%22%20fill%3D%22%23D08A4F%22%20opacity%3D%221%22%2F%3E%3Cpath%20d%3D%22M50%200%20L100%200%20L100%2050%20L82%2050%20C86%2040%2064%2040%2068%2050%20L50%2050%20L50%2032%20C60%2036%2060%2014%2050%2018%20Z%22%20fill%3D%22%23D08A4F%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M0%2050%20L18%2050%20C14%2060%2036%2060%2032%2050%20L50%2050%20L50%2068%20C40%2064%2040%2086%2050%2082%20L50%20100%20L0%20100%20Z%22%20fill%3D%22%23D08A4F%22%20opacity%3D%22.66%22%2F%3E%3Cpath%20d%3D%22M50%2050%20L68%2050%20C64%2040%2086%2040%2082%2050%20L100%2050%20L100%20100%20L50%20100%20L50%2082%20C40%2086%2040%2064%2050%2068%20Z%22%20fill%3D%22%23D08A4F%22%20opacity%3D%22.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
 <title>Computo Integral</title>
 <meta name="description" content="Infraestructura, soporte y reparación a nivel componente en CDMX, Estado de México y Toluca. Sistemas a la medida y campañas de generación de clientes desde el COC, Centro de Operaciones Comerciales.">
 <meta name="theme-color" content="#0A0C0E">
@@ -114,6 +114,9 @@ svg{max-width:100%}
 .folio .n{color:var(--copper)}
 .folio .linea{flex:1;height:1px;background:var(--line-2)}
 .folio .cuenta{color:var(--muted-2)}
+
+.logo{width:1.95em;height:1.95em;flex:0 0 auto;display:block}
+.pie .logo{width:46px;height:46px;margin-bottom:1rem}
 
 /* ---------- encabezado ---------- */
 .head{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid var(--line)}
@@ -386,10 +389,13 @@ svg{max-width:100%}
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="marca-ci" viewBox="0 0 142 142"><g transform="translate(71,71) rotate(45) translate(-50,-50)" stroke="var(--bg)" stroke-width="2.6" stroke-linejoin="round"><path d="M0 0 L50 0 L50 18 C60 14 60 36 50 32 L50 50 L32 50 C36 60 14 60 18 50 L0 50 Z" fill="var(--copper)" opacity="1"/><path d="M50 0 L100 0 L100 50 L82 50 C86 40 64 40 68 50 L50 50 L50 32 C60 36 60 14 50 18 Z" fill="var(--copper)" opacity=".82"/><path d="M0 50 L18 50 C14 60 36 60 32 50 L50 50 L50 68 C40 64 40 86 50 82 L50 100 L0 100 Z" fill="var(--copper)" opacity=".66"/><path d="M50 50 L68 50 C64 40 86 40 82 50 L100 50 L100 100 L50 100 L50 82 C40 86 40 64 50 68 Z" fill="var(--copper)" opacity=".5"/></g></symbol></svg>
+
+
 <header class="head" lang="es-MX">
   <div class="wrap head-in">
     <a class="marca" href="#inicio">
-      <span class="via" aria-hidden="true"></span>
+      <svg class="logo" aria-hidden="true" focusable="false"><use href="#marca-ci"/></svg>
       Computo Integral<span>&nbsp;· Implementando eficiencia</span>
     </a>
     <nav class="nav" aria-label="Principal">
@@ -976,6 +982,7 @@ svg{max-width:100%}
     <p class="cierre">Infraestructura que sostiene. Software que opera. Campañas que traen clientes. <em>Un solo responsable.</em></p>
     <div class="pie-grid">
       <div>
+        <svg class="logo" aria-hidden="true" focusable="false"><use href="#marca-ci"/></svg>
         <div class="firma-pie">Computo Integral</div>
         <p style="color:var(--muted);font-size:var(--fs-sm);max-width:34ch">Implementando eficiencia. Infraestructura, sistemas y crecimiento para empresas en el Valle de México.</p>
       </div>
