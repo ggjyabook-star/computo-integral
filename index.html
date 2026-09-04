@@ -317,6 +317,16 @@ svg{max-width:100%}
 .manifiesto p{font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-weight:500;font-size:clamp(1.25rem,1rem + 1.15vw,1.9rem);line-height:1.4;max-width:34ch;letter-spacing:-.002em}
 .manifiesto .firma{margin-top:1.4rem;display:flex;align-items:center;gap:.7rem}
 
+/* ---------- asesoría especializada ---------- */
+.asesoria{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(1.8rem,5vw,4.5rem);align-items:start;border-top:1px solid var(--line-2);padding-top:clamp(1.8rem,3.5vw,2.8rem)}
+@media (max-width:880px){.asesoria{grid-template-columns:1fr}}
+.retrato{display:flex;flex-direction:column;gap:.55rem}
+.monograma{font-family:var(--ff-display);font-variation-settings:"opsz" 96;font-weight:700;font-size:clamp(4.6rem,13vw,8.5rem);line-height:.78;letter-spacing:-.045em;color:transparent;-webkit-text-stroke:1.5px var(--stroke-num);transition:-webkit-text-stroke-color .55s var(--ease);margin-bottom:.4rem}
+.asesoria:hover .monograma{-webkit-text-stroke-color:var(--copper)}
+.retrato .nombre{font-family:var(--ff-display);font-variation-settings:"opsz" 16;font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.2rem);line-height:1.12;letter-spacing:-.008em}
+.retrato .cargo{color:var(--copper);letter-spacing:.14em}
+.retrato p{color:var(--muted);font-size:var(--fs-sm);margin-top:.7rem;max-width:34ch}
+
 /* ---------- cobertura: guías de puntos ---------- */
 .cobertura{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-2)}
 .plaza{padding:clamp(1.4rem,3vw,2.2rem) clamp(1rem,2vw,1.8rem);border-right:1px solid var(--line)}
@@ -387,6 +397,7 @@ svg{max-width:100%}
       <a class="opt" href="#servicios">Servicios</a>
       <a href="#sistemas">Sistemas</a>
       <a class="opt" href="#polizas">Pólizas</a>
+      <a class="opt" href="#asesoria">Asesoría</a>
       <a class="opt" href="#nosotros">Nosotros</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -449,7 +460,7 @@ svg{max-width:100%}
   <!-- ══════════ § 01 DIVISIONES ══════════ -->
   <section class="sec" id="divisiones">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 01</span><span class="mono">Las tres casas</span><span class="linea"></span><span class="mono cuenta tnum">01 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 01</span><span class="mono">Las tres casas</span><span class="linea"></span><span class="mono cuenta tnum">01 / 10</span></div>
       <div class="sec-head">
         <h2>Una empresa se sostiene sobre tres capas. Casi siempre las contrata por separado.</h2>
         <p>Y a tres proveedores que no se hablan entre sí. Aquí la infraestructura la sostenemos nosotros, el software lo construye <strong style="color:var(--ink);font-weight:500">MAW Soluciones</strong> —nuestra alianza de desarrollo— y la demanda la opera <strong style="color:var(--ink);font-weight:500">COC</strong>. La ventaja no es ofrecer las tres cosas: es que sean el mismo equipo.</p>
@@ -504,7 +515,7 @@ svg{max-width:100%}
   <!-- ══════════ § 02 SERVICIOS ══════════ -->
   <section class="sec" id="servicios">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 02</span><span class="mono">Infraestructura y soporte · Hoja de servicios</span><span class="linea"></span><span class="mono cuenta tnum">02 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 02</span><span class="mono">Infraestructura y soporte · Hoja de servicios</span><span class="linea"></span><span class="mono cuenta tnum">02 / 10</span></div>
       <div class="sec-head">
         <h2>Reparamos lo que otros reemplazan.</h2>
         <p>Es literal y es la prueba de lo demás: quien mide una línea de alimentación en una placa contra el esquemático, también sabe por qué se cae su red los martes. Seis frentes, un mismo criterio de ingeniería.</p>
@@ -589,7 +600,7 @@ svg{max-width:100%}
   <!-- ══════════ § 03 SISTEMAS EN OPERACIÓN ══════════ -->
   <section class="sec" id="sistemas">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 03</span><span class="mono">Sistemas en operación · Dé un vistazo</span><span class="linea"></span><span class="mono cuenta tnum">03 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 03</span><span class="mono">Sistemas en operación · Dé un vistazo</span><span class="linea"></span><span class="mono cuenta tnum">03 / 10</span></div>
       <div class="sec-head">
         <h2>¿Necesita un sistema especializado? Aquí hay uno funcionando.</h2>
         <p>No enseñamos capturas de pantalla: abrimos el sistema. Entre y navéguelo — está en línea, con datos de demostración y cuentas de ejemplo sin contraseña.</p>
@@ -722,7 +733,7 @@ svg{max-width:100%}
   <!-- ══════════ § 04 PROCESO ══════════ -->
   <section class="sec" id="proceso">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 04</span><span class="mono">Cómo trabajamos</span><span class="linea"></span><span class="mono cuenta tnum">04 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 04</span><span class="mono">Cómo trabajamos</span><span class="linea"></span><span class="mono cuenta tnum">04 / 10</span></div>
       <div class="sec-head">
         <h2>Cinco pasos. Ninguno se salta.</h2>
         <p>El orden importa: casi todos los problemas caros que nos han tocado venían de un diagnóstico que nadie hizo. Es la misma secuencia para una placa, para una red y para un sistema.</p>
@@ -740,7 +751,7 @@ svg{max-width:100%}
   <!-- ══════════ § 05 PÓLIZAS ══════════ -->
   <section class="sec" id="polizas">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 05</span><span class="mono">Pólizas de mantenimiento</span><span class="linea"></span><span class="mono cuenta tnum">05 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 05</span><span class="mono">Pólizas de mantenimiento</span><span class="linea"></span><span class="mono cuenta tnum">05 / 10</span></div>
       <div class="sec-head">
         <h2>Soporte contratado sale más barato que soporte de emergencia.</h2>
         <p>Tres niveles, según qué tanto duele que su operación se detenga una hora. «Respuesta» significa inicio de atención por un ingeniero, no cierre del incidente.</p>
@@ -793,11 +804,47 @@ svg{max-width:100%}
     </div>
   </section>
 
-  <!-- ══════════ § 06 NOSOTROS ══════════ -->
+  <!-- ══════════ § 06 ASESORÍA ESPECIALIZADA ══════════ -->
+  <section class="sec" id="asesoria">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 06</span><span class="mono">Asesoría especializada</span><span class="linea"></span><span class="mono cuenta tnum">06 / 10</span></div>
+      <div class="sec-head">
+        <h2>La pauta no se administra sola. Alguien responde por el número.</h2>
+        <p>Antes de invertir un peso conviene saber si el problema es el anuncio, la página a la que llega o el seguimiento que nadie da. Esa es la conversación, y se tiene con quien opera las campañas — no con un ejecutivo de cuenta.</p>
+      </div>
+
+      <div class="asesoria">
+        <div class="retrato">
+          <div class="monograma" aria-hidden="true">JG</div>
+          <h3 class="nombre">Julio García</h3>
+          <span class="mono cargo">SEO · SEM · Leads calificados</span>
+          <p>Dirige el Centro de Operaciones Comerciales. Trabaja el embudo completo: qué busca su cliente, qué anuncio lo intercepta, a dónde cae y quién le da seguimiento.</p>
+        </div>
+
+        <div>
+          <ul class="capas">
+            <li><span class="k">SEO</span><span class="v">Técnico, de contenidos y local. Indexación, estructura, velocidad y las búsquedas que sí tienen intención de compra.</span></li>
+            <li><span class="k">SEM</span><span class="v">Google Ads en búsqueda, display y shopping. Estructura por línea de negocio y depuración semanal del gasto desperdiciado.</span></li>
+            <li><span class="k">Meta 360</span><span class="v">Embudo completo en Facebook e Instagram: reconocimiento, consideración, conversión y reactivación de base.</span></li>
+            <li><span class="k">Leads</span><span class="v">Calificación, ruteo al vendedor correcto y respuesta en los primeros minutos. Un lead sin seguimiento es gasto, no inversión.</span></li>
+            <li><span class="k">Medición</span><span class="v">GA4, Tag Manager, píxeles y atribución verificada. Tablero con costo por lead y costo por cliente adquirido.</span></li>
+            <li><span class="k">Auditoría</span><span class="v">Diagnóstico de campañas en marcha: qué se apaga, qué se corrige y a dónde se mueve el presupuesto.</span></li>
+          </ul>
+
+          <div class="cta-fila">
+            <a class="btn btn--solid" href="https://wa.me/525546977863?text=Hola%2C%20vengo%20de%20la%20p%C3%A1gina%20de%20Computo%20Integral.%20Quiero%20agendar%20una%20asesor%C3%ADa%20con%20Julio%20Garc%C3%ADa%20sobre%20campa%C3%B1as%20y%20generaci%C3%B3n%20de%20clientes." target="_blank" rel="noopener">Agendar asesoría <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--quiet" href="#divisiones">Conocer COC</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 07 NOSOTROS ══════════ -->
   <section class="sec nosotros" id="nosotros">
     <span class="filigrana" aria-hidden="true">EFICIENCIA</span>
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 06</span><span class="mono">Nosotros</span><span class="linea"></span><span class="mono cuenta tnum">06 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 07</span><span class="mono">Nosotros</span><span class="linea"></span><span class="mono cuenta tnum">07 / 10</span></div>
       <div class="relato">
         <div class="cuerpo">
           <p>Empezamos reparando computadoras. Seguimos haciéndolo, con la misma disciplina: abrir el equipo, entender la falla y resolverla al nivel donde de verdad está. Esa costumbre —no dar por perdido lo que se puede recuperar— define cómo trabajamos todo lo demás.</p>
@@ -824,7 +871,7 @@ svg{max-width:100%}
   <!-- ══════════ § 07 COBERTURA ══════════ -->
   <section class="sec" id="cobertura">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 07</span><span class="mono">Cobertura</span><span class="linea"></span><span class="mono cuenta tnum">07 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 08</span><span class="mono">Cobertura</span><span class="linea"></span><span class="mono cuenta tnum">08 / 10</span></div>
       <div class="sec-head">
         <h2>En sitio en el Valle de México y Toluca. Remoto en todo el país.</h2>
         <p>La visita se agenda el mismo día cuando la falla detiene la operación. Fuera de cobertura, atendemos por acceso remoto y cotizamos traslado y estadía.</p>
@@ -852,7 +899,7 @@ svg{max-width:100%}
   <!-- ══════════ § 08 PREGUNTAS ══════════ -->
   <section class="sec" id="preguntas">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 08</span><span class="mono">Preguntas frecuentes</span><span class="linea"></span><span class="mono cuenta tnum">08 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 09</span><span class="mono">Preguntas frecuentes</span><span class="linea"></span><span class="mono cuenta tnum">09 / 10</span></div>
       <div class="sec-head">
         <h2>Lo que casi siempre nos preguntan antes de contratar.</h2>
         <p>Si su duda no está aquí, escríbanos por WhatsApp. Contestamos en horario hábil y no cobramos por preguntar.</p>
@@ -897,7 +944,7 @@ svg{max-width:100%}
   <!-- ══════════ § 09 CONTACTO ══════════ -->
   <section class="sec" id="contacto" style="border-bottom:0">
     <div class="wrap">
-      <div class="folio"><span class="mono n">§ 09</span><span class="mono">Contacto</span><span class="linea"></span><span class="mono cuenta tnum">09 / 09</span></div>
+      <div class="folio"><span class="mono n">§ 10</span><span class="mono">Contacto</span><span class="linea"></span><span class="mono cuenta tnum">10 / 10</span></div>
       <div class="contacto">
         <div>
           <h2 class="display">Cuéntenos qué se detuvo.</h2>
@@ -960,6 +1007,7 @@ svg{max-width:100%}
           <li><a href="#divisiones">Computo Integral · Infraestructura</a></li>
           <li><a href="https://mawsoluciones.com/?utm_source=computointegral&amp;utm_medium=referral&amp;utm_campaign=alianza&amp;utm_content=pie" target="_blank" rel="noopener">MAW Soluciones ↗</a></li>
           <li><a href="#divisiones">COC · Centro de Operaciones Comerciales</a></li>
+          <li><a href="#asesoria">Asesoría especializada</a></li>
           <li><a href="#sistemas">Sistemas en operación</a></li>
         </ul>
       </div>
