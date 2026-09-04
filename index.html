@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%230A0C0E%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2214%22%20fill%3D%22none%22%20stroke%3D%22%23D08A4F%22%20stroke-width%3D%225%22%2F%3E%3Cpath%20d%3D%22M0%2032h18M46%2032h18%22%20stroke%3D%22%23D08A4F%22%20stroke-width%3D%224%22%2F%3E%3C%2Fsvg%3E">
+<title>Computo Integral</title>
+<meta name="description" content="Infraestructura, soporte y reparación a nivel componente en CDMX, Estado de México y Toluca. Sistemas a la medida con MAW Soluciones y campañas con COC, Centro de Operaciones Comerciales.">
+<meta name="theme-color" content="#0A0C0E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Computo Integral — Implementando eficiencia">
+<meta property="og:description" content="Reparamos lo que otros reemplazan. Infraestructura, videovigilancia, redes y servidores para empresas. Software a la medida y campañas que traen clientes.">
+<meta property="og:locale" content="es_MX">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ==========================================================================
+   COMPUTO INTEGRAL — sistema de diseño «Hairline»
+   Cobre sobre grafito anodizado. El hilo conductor es literal: la línea fina.
+   Las pistas de 0.1 mm de una placa, los conductores del Cat6A y las astas
+   de una didone son el mismo gesto. Cobre porque es el metal del oficio.
+   ========================================================================== */
+
+:root{
+  /* ---- oscuro por defecto (dark-first deliberado) ---- */
+  --bg:#0A0C0E;
+  --bg-deep:#06080A;
+  --surface:#101418;
+  --surface-2:#171C21;
+  --ink:#EFEBE4;
+  --muted:#8E959C;
+  --muted-2:#6C737A;
+  --copper:#D08A4F;
+  --copper-soft:#E9C09A;
+  --platinum:#A9B7BF;
+  --line:rgba(239,235,228,.11);
+  --line-2:rgba(239,235,228,.20);
+  --line-copper:rgba(208,138,79,.42);
+  --glow:radial-gradient(62% 58% at 46% 38%, rgba(208,138,79,.15), transparent 72%);
+  --shadow:0 30px 90px -40px rgba(0,0,0,.9);
+  --stroke-num:rgba(239,235,228,.42);
+
+  --ff-display:"Bodoni Moda","Bodoni 72","Didot","Times New Roman",serif;
+  --ff-body:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --ff-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+
+  --fs-display:clamp(2.85rem,1.05rem + 7.4vw,7.25rem);
+  --fs-h2:clamp(1.85rem,1.1rem + 3.05vw,3.35rem);
+  --fs-h3:clamp(1.2rem,1.02rem + .85vw,1.6rem);
+  --fs-body:clamp(1rem,.965rem + .16vw,1.07rem);
+  --fs-sm:.885rem;
+  --fs-mono:.705rem;
+
+  --gutter:clamp(1.15rem,4vw,4rem);
+  --section-y:clamp(4.25rem,8.5vw,8.5rem);
+  --max:1280px;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --dur:.42s;
+}
+
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#F4F1EB; --bg-deep:#E9E5DC; --surface:#FFFFFF; --surface-2:#EFEBE2;
+    --ink:#15181B; --muted:#5B636A; --muted-2:#767D84;
+    --copper:#96551F; --copper-soft:#77420F; --platinum:#3F515B;
+    --line:rgba(21,24,27,.13); --line-2:rgba(21,24,27,.26); --line-copper:rgba(150,85,31,.45);
+    --glow:radial-gradient(62% 58% at 46% 38%, rgba(150,85,31,.09), transparent 72%);
+    --shadow:0 24px 60px -30px rgba(21,24,27,.30);
+    --stroke-num:rgba(21,24,27,.40);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#F4F1EB; --bg-deep:#E9E5DC; --surface:#FFFFFF; --surface-2:#EFEBE2;
+  --ink:#15181B; --muted:#5B636A; --muted-2:#767D84;
+  --copper:#96551F; --copper-soft:#77420F; --platinum:#3F515B;
+  --line:rgba(21,24,27,.13); --line-2:rgba(21,24,27,.26); --line-copper:rgba(150,85,31,.45);
+  --glow:radial-gradient(62% 58% at 46% 38%, rgba(150,85,31,.09), transparent 72%);
+  --shadow:0 24px 60px -30px rgba(21,24,27,.30);
+  --stroke-num:rgba(21,24,27,.40);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--ff-body);font-size:var(--fs-body);line-height:1.62;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
+p{margin:0;text-wrap:pretty;hyphens:auto}
+ul,dl{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+svg{max-width:100%}
+::selection{background:var(--copper);color:var(--bg-deep)}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:1px}
+
+.wrap{width:min(100% - var(--gutter)*2,var(--max));margin-inline:auto}
+.skip{position:absolute;left:-9999px;top:0;background:var(--copper);color:var(--bg-deep);padding:.6rem 1rem;z-index:99}
+.skip:focus{left:.5rem;top:.5rem}
+
+/* ---------- átomos ---------- */
+.mono{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.display{font-family:var(--ff-display);font-variation-settings:"opsz" 96;letter-spacing:-.022em;line-height:.94;hanging-punctuation:first last}
+.display em{font-style:italic;color:var(--copper)}
+.lede{color:var(--muted);max-width:60ch}
+.tnum{font-variant-numeric:tabular-nums lining-nums}
+.via{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bg);border:1.5px solid var(--copper);vertical-align:middle;flex:0 0 auto}
+
+/* folio de sección: § nn · título · filete · contador */
+.folio{display:flex;align-items:center;gap:.85rem;margin-bottom:clamp(1.5rem,3vw,2.6rem)}
+.folio .n{color:var(--copper)}
+.folio .linea{flex:1;height:1px;background:var(--line-2)}
+.folio .cuenta{color:var(--muted-2)}
+
+/* ---------- encabezado ---------- */
+.head{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid var(--line)}
+.head-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:62px}
+.marca{display:flex;align-items:center;gap:.6rem;font-weight:600;letter-spacing:.06em;font-size:.83rem;text-transform:uppercase;white-space:nowrap}
+.marca span{color:var(--muted);font-weight:400}
+.nav{display:flex;align-items:center;gap:clamp(.9rem,2vw,1.85rem)}
+.nav a{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding-block:.4rem;border-bottom:1px solid transparent;transition:color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.nav a:hover{color:var(--ink);border-color:var(--line-copper)}
+@media (max-width:960px){.nav .opt{display:none}.marca span{display:none}}
+
+/* ---------- botones ---------- */
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--ff-mono);font-size:.735rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.92rem 1.5rem;border:1px solid var(--copper);color:var(--copper);background:transparent;cursor:pointer;min-height:44px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.btn:hover{background:var(--copper);color:var(--bg-deep)}
+.btn--solid{background:var(--copper);color:var(--bg-deep)}
+.btn--solid:hover{background:transparent;color:var(--copper)}
+.btn--quiet{border-color:var(--line-2);color:var(--ink)}
+.btn--quiet:hover{background:transparent;border-color:var(--copper);color:var(--copper)}
+.btn .arrow{transition:transform var(--dur) var(--ease)}
+.btn:hover .arrow{transform:translateX(3px)}
+.cta-fila{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:clamp(1.7rem,4vw,2.6rem)}
+
+/* ---------- ruteo de PCB (firma) ---------- */
+.routing{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.5}
+.routing .trace{fill:none;stroke:var(--line-2);stroke-width:1;vector-effect:non-scaling-stroke}
+.routing .via-pad{fill:none;stroke:var(--line-copper);stroke-width:1;vector-effect:non-scaling-stroke}
+.routing .pulse{fill:none;stroke:var(--copper);stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-dasharray:70 1600;stroke-dashoffset:1670;filter:drop-shadow(0 0 5px var(--copper));animation:pulso 9s var(--ease-io) 1.2s infinite}
+@keyframes pulso{0%{stroke-dashoffset:1670;opacity:0}8%{opacity:.9}70%{opacity:.9}80%,100%{stroke-dashoffset:0;opacity:0}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero::after{content:"";position:absolute;inset:0;background:var(--glow);pointer-events:none}
+.hero-in{position:relative;z-index:2;padding-block:clamp(3.4rem,8.5vw,7rem) clamp(2.4rem,5vw,3.8rem)}
+.hero h1{font-size:var(--fs-display);margin:1.35rem 0 0;max-width:14ch}
+.hero .lede{margin-top:clamp(1.35rem,3vw,2rem);font-size:clamp(1.02rem,.96rem + .42vw,1.22rem);max-width:56ch}
+.eyebrow{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);position:relative;z-index:2}
+.stats div{padding:clamp(1.1rem,2.4vw,1.75rem) clamp(.6rem,1.6vw,1.4rem);border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats strong{display:block;font-family:var(--ff-display);font-variation-settings:"opsz" 72;font-size:clamp(1.45rem,1rem + 1.65vw,2.3rem);font-weight:400;line-height:1.05;letter-spacing:-.012em}
+.stats .mono{display:block;margin-top:.6rem;line-height:1.5}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* ---------- secciones ---------- */
+.sec{padding-block:var(--section-y);border-bottom:1px solid var(--line);position:relative}
+.sec h2{font-family:var(--ff-display);font-variation-settings:"opsz" 88;font-size:var(--fs-h2);letter-spacing:-.018em;line-height:1.02;max-width:20ch;hanging-punctuation:first}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(1.2rem,4vw,3.5rem);align-items:end;margin-bottom:clamp(2.2rem,5vw,4rem)}
+.sec-head p{color:var(--muted);max-width:52ch}
+@media (max-width:880px){.sec-head{grid-template-columns:1fr;align-items:start}}
+
+/* ---------- las tres casas ---------- */
+.casas{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-2)}
+.casa{padding:clamp(1.6rem,3vw,2.4rem) clamp(1.1rem,2.4vw,2.2rem);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:1rem;position:relative}
+.casa:last-child{border-right:0}
+.casa::before{content:"";position:absolute;top:-1px;left:0;width:0;height:1px;background:var(--copper);transition:width .55s var(--ease)}
+.casa:hover::before{width:100%}
+.casa-top{display:flex;align-items:center;gap:.6rem}
+.casa h3{font-family:var(--ff-display);font-variation-settings:"opsz" 72;font-size:var(--fs-h3);line-height:1.1}
+.casa .rol{color:var(--copper);font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.16em;text-transform:uppercase}
+.casa p{color:var(--muted);font-size:var(--fs-sm)}
+.casa ul{display:flex;flex-direction:column;gap:.42rem;margin-top:auto;padding-top:.6rem}
+.casa li{font-size:var(--fs-sm);display:flex;gap:.55rem;align-items:baseline}
+.casa li::before{content:"—";color:var(--copper);font-size:.7rem;flex:0 0 auto}
+.liga{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--copper);display:inline-flex;gap:.45rem;align-items:center;border-bottom:1px solid var(--line-copper);padding-bottom:.3rem;align-self:flex-start;margin-top:1rem;transition:border-color var(--dur) var(--ease)}
+.liga:hover{border-color:var(--copper)}
+@media (max-width:920px){.casas{grid-template-columns:1fr}.casa{border-right:0;border-bottom:1px solid var(--line)}.casa:last-child{border-bottom:0}}
+
+/* ---------- hoja de servicios ---------- */
+.hoja{border-top:1px solid var(--line-2)}
+.fila{display:grid;grid-template-columns:clamp(6rem,11vw,9.5rem) minmax(0,1fr) minmax(0,1.15fr);gap:clamp(1rem,3vw,2.5rem);padding-block:clamp(1.5rem,3.2vw,2.35rem);border-bottom:1px solid var(--line);transition:background var(--dur) var(--ease)}
+.fila:hover{background:var(--surface)}
+.fila .cod{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.14em;color:var(--muted-2);padding-top:.42rem;transition:color var(--dur) var(--ease)}
+.fila:hover .cod{color:var(--copper)}
+.fila h3{font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-size:clamp(1.15rem,1rem + .7vw,1.5rem);line-height:1.15}
+.fila .promesa{color:var(--muted);font-size:var(--fs-sm);margin-top:.55rem;max-width:38ch}
+.fila .casos{margin-top:.9rem;font-size:.83rem;color:var(--muted-2);font-style:italic;max-width:40ch}
+.fila .specs{display:flex;flex-wrap:wrap;gap:.4rem .5rem;align-content:start;padding-top:.35rem}
+.fila .specs span{font-family:var(--ff-mono);font-size:.68rem;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);padding:.3rem .55rem;white-space:nowrap}
+@media (max-width:920px){.fila{grid-template-columns:clamp(5rem,20vw,7rem) minmax(0,1fr)}.fila .specs{grid-column:1/-1}}
+@media (max-width:520px){.fila{grid-template-columns:1fr;gap:.7rem}}
+
+/* ---------- sistemas: pestañas y ventana ---------- */
+.tabs{display:flex;border-bottom:1px solid var(--line-2);flex-wrap:wrap;margin-bottom:clamp(1.6rem,3vw,2.4rem)}
+.tab{appearance:none;background:transparent;border:0;border-bottom:2px solid transparent;font-family:var(--ff-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:.95rem 1.15rem;cursor:pointer;margin-bottom:-1px;min-height:44px;display:flex;align-items:center;gap:.55rem;transition:color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--copper);border-bottom-color:var(--copper)}
+.panel[hidden]{display:none}
+.sistema{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(1.5rem,4vw,3.2rem);align-items:start}
+@media (max-width:980px){.sistema{grid-template-columns:1fr}}
+.sistema h3{font-family:var(--ff-display);font-variation-settings:"opsz" 72;font-size:clamp(1.4rem,1.1rem + 1.2vw,2.05rem);line-height:1.1;margin-bottom:.7rem;letter-spacing:-.018em}
+.sistema .lede{margin-bottom:1.3rem}
+.capas{border-top:1px solid var(--line)}
+.capas li{display:grid;grid-template-columns:auto 1fr;gap:.8rem;padding-block:.72rem;border-bottom:1px solid var(--line);font-size:var(--fs-sm);align-items:baseline}
+.capas .k{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--copper);min-width:5.5rem}
+.capas .v{color:var(--muted)}
+
+.ventana{border:1px solid var(--line-2);background:var(--surface);box-shadow:var(--shadow);overflow:hidden;border-radius:10px}
+.ventana-bar{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.ventana-url{flex:1;min-width:0;font-family:var(--ff-mono);font-size:.66rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:.36rem .6rem;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.envivo{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--copper);white-space:nowrap}
+.envivo .dot{width:6px;height:6px;border-radius:50%;background:var(--copper);animation:latido 2.4s var(--ease-io) infinite}
+@keyframes latido{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+.ventana-stage{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--bg-deep)}
+.ventana-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.ventana-stage.is-live .mock{opacity:0;pointer-events:none}
+.ventana-foot{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;padding:.75rem .85rem;border-top:1px solid var(--line);background:var(--surface-2)}
+.mini{font-family:var(--ff-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding:.55rem .9rem;min-height:38px;border:1px solid var(--line-2);background:transparent;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:.45rem;transition:border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.mini:hover{border-color:var(--copper);color:var(--copper)}
+.mini[disabled]{opacity:.55;cursor:default}
+.is-blocked .mini--load{display:none}
+.aviso{display:none;font-family:var(--ff-mono);font-size:.62rem;color:var(--muted-2);max-width:34ch;line-height:1.5}
+.is-blocked .aviso{display:block}
+
+/* maquetas estáticas */
+.mock{position:absolute;inset:0;overflow:hidden;transition:opacity .4s var(--ease);font-size:clamp(6px,1.05cqi,10px);container-type:inline-size}
+.mock *{box-sizing:border-box}
+.mock-altamira{background:#E8ECF2;color:#16283F;padding:3.2%}
+.mock-altamira .m-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:3%}
+.mock-altamira .m-logo{display:flex;align-items:center;gap:.5em}
+.mock-altamira .m-badge{width:2.6em;height:2.6em;border-radius:5px;background:#1E3A5F;color:#fff;display:grid;place-items:center;font:600 1em/1 var(--ff-body);letter-spacing:.06em}
+.mock-altamira .m-links{display:flex;align-items:center;gap:1.2em;font:500 .82em/1 var(--ff-body);color:#4A6280}
+.mock-altamira .m-cta{background:#1E3A5F;color:#fff;padding:.55em 1em;border-radius:4px;font:500 .8em/1 var(--ff-body)}
+.mock-altamira .m-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:3%}
+.mock-altamira .m-card{background:#fff;border-radius:8px;padding:5% 5.5%;box-shadow:0 8px 24px -12px rgba(22,40,63,.28)}
+.mock-altamira .m-kicker{font:500 .7em/1 var(--ff-mono);letter-spacing:.18em;color:#B4802F;text-transform:uppercase;margin-bottom:1.4em}
+.mock-altamira .m-h{font-family:var(--ff-display);font-size:2.6em;line-height:1.02;font-weight:400;letter-spacing:-.02em}
+.mock-altamira .m-h i{font-style:italic;display:block}
+.mock-altamira .m-p{font:400 .92em/1.5 var(--ff-body);color:#54677E;margin:1.3em 0 1.6em;max-width:26em}
+.mock-altamira .m-btns{display:flex;gap:.7em}
+.mock-altamira .m-b1{background:#1E3A5F;color:#fff;padding:.62em 1.1em;border-radius:4px;font:500 .82em/1 var(--ff-body)}
+.mock-altamira .m-b2{border:1px solid #C3CCD8;color:#1E3A5F;padding:.62em 1.1em;border-radius:4px;font:500 .82em/1 var(--ff-body)}
+.mock-altamira .m-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2%;margin-top:2.4em}
+.mock-altamira .m-stats b{display:block;font-family:var(--ff-display);font-size:1.8em;font-weight:400;line-height:1}
+.mock-altamira .m-stats span{font:500 .6em/1.3 var(--ff-mono);letter-spacing:.13em;color:#7E8B9C;text-transform:uppercase;display:block;margin-top:.7em}
+.mock-altamira .m-aviso{border-bottom:1px solid #E4E9EF;padding:1.1em 0}
+.mock-altamira .m-aviso:last-child{border-bottom:0}
+.mock-altamira .m-fecha{display:flex;gap:.8em;align-items:center;font:500 .62em/1 var(--ff-mono);letter-spacing:.12em;color:#8A97A8}
+.mock-altamira .m-pri{color:#B4802F}
+.mock-altamira .m-at{font:600 .95em/1.35 var(--ff-body);margin:.7em 0 .45em}
+.mock-altamira .m-ab{font:400 .82em/1.5 var(--ff-body);color:#6B7A8C}
+
+.mock-maw{background:#040405;color:#F2EFEA;display:grid;place-items:center;padding:3.2%}
+.mock-maw .m-nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:3.2%}
+.mock-maw .m-word{font:600 1.5em/1 var(--ff-body);letter-spacing:.22em}
+.mock-maw .m-word small{display:block;font:500 .4em/1 var(--ff-mono);letter-spacing:.4em;color:#8D8880;margin-top:.5em}
+.mock-maw .m-links{display:flex;gap:1.5em;font:400 .8em/1 var(--ff-body);color:#B8B2A9}
+.mock-maw .m-orb{position:absolute;width:52%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,rgba(120,170,255,.30),rgba(80,60,200,.12) 45%,transparent 68%);filter:blur(6px)}
+.mock-maw .m-ring{position:absolute;width:62%;aspect-ratio:2.6;border:1px solid rgba(150,190,255,.42);border-radius:50%;transform:rotate(-14deg);box-shadow:0 0 22px rgba(120,170,255,.35),inset 0 0 22px rgba(120,170,255,.22)}
+.mock-maw .m-ring2{position:absolute;width:56%;aspect-ratio:3.4;border:1px solid rgba(255,190,120,.30);border-radius:50%;transform:rotate(16deg)}
+.mock-maw .m-h{position:relative;font-family:var(--ff-display);font-style:italic;font-weight:400;font-size:2.4em;letter-spacing:-.01em;text-align:center;text-shadow:0 2px 18px rgba(0,0,0,.7)}
+
+/* ---------- proceso: numerales fantasma ---------- */
+.proceso{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line-2)}
+.paso{padding:clamp(1.4rem,2.6vw,2.1rem) clamp(.85rem,1.8vw,1.5rem);border-right:1px solid var(--line)}
+.paso:last-child{border-right:0}
+.paso .n{
+  font-family:var(--ff-display);font-variation-settings:"opsz" 96;font-weight:700;
+  font-size:clamp(2.6rem,1.4rem + 3.6vw,4.6rem);line-height:.86;letter-spacing:-.03em;
+  color:transparent;-webkit-text-stroke:1px var(--stroke-num);
+  transition:-webkit-text-stroke-color .5s var(--ease);
+}
+.paso:hover .n{-webkit-text-stroke-color:var(--copper)}
+.paso h3{font-size:.98rem;font-weight:600;font-family:var(--ff-body);margin:.85rem 0 .5rem}
+.paso p{font-size:var(--fs-sm);color:var(--muted)}
+@media (max-width:1020px){.proceso{grid-template-columns:repeat(2,1fr)}.paso{border-bottom:1px solid var(--line)}.paso:nth-child(2n){border-right:0}}
+@media (max-width:560px){.proceso{grid-template-columns:1fr}.paso{border-right:0}}
+
+/* ---------- pólizas ---------- */
+.polizas{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.9rem,2vw,1.5rem)}
+@media (max-width:920px){.polizas{grid-template-columns:1fr}}
+.poliza{border:1px solid var(--line);background:var(--surface);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:1rem;position:relative}
+.poliza--dest{border-color:var(--line-copper)}
+.poliza .pill{position:absolute;top:0;right:1.2rem;transform:translateY(-50%);background:var(--copper);color:var(--bg-deep);font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:.28rem .6rem}
+.poliza h3{font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-size:1.45rem;line-height:1.1}
+.poliza .para{font-size:var(--fs-sm);color:var(--muted-2);font-style:italic}
+.poliza .sla{display:flex;align-items:baseline;gap:.55rem;padding-bottom:.9rem;border-bottom:1px solid var(--line)}
+.poliza .sla b{font-family:var(--ff-display);font-variation-settings:"opsz" 72;font-size:1.9rem;font-weight:400;line-height:1;color:var(--copper)}
+.poliza ul{display:flex;flex-direction:column;gap:.5rem}
+.poliza li{font-size:var(--fs-sm);color:var(--muted);display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:baseline}
+.poliza li::before{content:"·";color:var(--copper);font-weight:700}
+
+/* ---------- nosotros: capitular y filigrana ---------- */
+.nosotros{position:relative;overflow:hidden}
+.filigrana{position:absolute;right:-.06em;bottom:-.14em;font-family:var(--ff-display);font-variation-settings:"opsz" 96;font-size:22vw;line-height:.8;color:var(--ink);opacity:.045;user-select:none;pointer-events:none;letter-spacing:-.03em;white-space:nowrap}
+.relato{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(1.6rem,5vw,4.5rem);align-items:start;position:relative;z-index:1}
+@media (max-width:880px){.relato{grid-template-columns:1fr}}
+.relato p + p{margin-top:1.15rem}
+.relato .cuerpo p{color:var(--muted);max-width:62ch}
+.relato .cuerpo p:first-child{color:var(--ink)}
+.relato .cuerpo p:first-child::first-letter{
+  font-family:var(--ff-display);font-variation-settings:"opsz" 96;font-weight:700;
+  float:left;font-size:clamp(4rem,11vw,7.2rem);line-height:.74;
+  padding-right:.08em;margin-top:.06em;color:var(--copper);
+}
+.pruebas{border-top:1px solid var(--line-2)}
+.pruebas li{padding-block:.95rem;border-bottom:1px solid var(--line)}
+.pruebas b{display:block;font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+.pruebas span{font-size:var(--fs-sm);color:var(--muted)}
+.manifiesto{margin-top:clamp(2.5rem,6vw,4.5rem);padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line-2);position:relative;z-index:1}
+.manifiesto p{font-family:var(--ff-display);font-variation-settings:"opsz" 40;font-size:clamp(1.25rem,1rem + 1.15vw,1.9rem);line-height:1.35;max-width:34ch;letter-spacing:-.012em}
+.manifiesto .firma{margin-top:1.4rem;display:flex;align-items:center;gap:.7rem}
+
+/* ---------- cobertura: guías de puntos ---------- */
+.cobertura{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-2)}
+.plaza{padding:clamp(1.4rem,3vw,2.2rem) clamp(1rem,2vw,1.8rem);border-right:1px solid var(--line)}
+.plaza:last-child{border-right:0}
+.plaza h3{font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-size:1.4rem;margin-bottom:.5rem}
+.plaza .geo{font-family:var(--ff-mono);font-size:.66rem;letter-spacing:.1em;color:var(--copper);display:block;margin-bottom:.9rem}
+.plaza p{font-size:var(--fs-sm);color:var(--muted)}
+@media (max-width:780px){.cobertura{grid-template-columns:1fr}.plaza{border-right:0;border-bottom:1px solid var(--line)}.plaza:last-child{border-bottom:0}}
+
+.guias{border-top:1px solid var(--line-2)}
+.guias .r{display:flex;align-items:baseline;gap:.75rem;padding-block:.85rem;border-bottom:1px solid var(--line)}
+.guias dt{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);flex:0 0 auto}
+.guias .pts{flex:1;height:1em;min-width:1.5rem;background-image:radial-gradient(circle,var(--line-2) 1px,transparent 1px);background-size:6px 6px;background-position:0 .72em;background-repeat:repeat-x}
+.guias dd{margin:0;font-size:var(--fs-sm);text-align:right;font-variant-numeric:tabular-nums lining-nums;flex:0 1 auto}
+.guias dd a{border-bottom:1px solid var(--line-copper);transition:color var(--dur) var(--ease)}
+.guias dd a:hover{color:var(--copper)}
+@media (max-width:520px){.guias .r{flex-wrap:wrap}.guias .pts{display:none}.guias dd{text-align:left;flex-basis:100%}}
+
+/* ---------- preguntas ---------- */
+.faq{border-top:1px solid var(--line-2)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding-block:1.15rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;font-size:1.02rem;font-weight:500;min-height:44px;transition:color var(--dur) var(--ease)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--copper)}
+.faq summary .sig{font-family:var(--ff-mono);color:var(--copper);font-size:1.05rem;line-height:1;transition:transform var(--dur) var(--ease)}
+.faq details[open] summary .sig{transform:rotate(45deg)}
+.faq .resp{padding-bottom:1.35rem;color:var(--muted);max-width:70ch;font-size:var(--fs-sm)}
+
+/* ---------- contacto y sello ---------- */
+.contacto{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
+@media (max-width:880px){.contacto{grid-template-columns:1fr}}
+.contacto h2{max-width:12ch}
+.sello{width:clamp(120px,15vw,168px);height:auto;margin-top:clamp(1.8rem,4vw,2.8rem)}
+.sello .giro{transform-origin:100px 100px;animation:girar 72s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+
+/* ---------- pie ---------- */
+.pie{padding-block:clamp(2.5rem,5vw,4rem) 2rem;background:var(--bg-deep)}
+.cierre{font-family:var(--ff-display);font-variation-settings:"opsz" 60;font-size:clamp(1.1rem,.9rem + .9vw,1.55rem);line-height:1.35;padding-bottom:clamp(2rem,4vw,3rem);border-bottom:1px solid var(--line);max-width:46ch}
+.cierre em{font-style:italic;color:var(--copper)}
+.pie-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:clamp(1.5rem,3vw,2.5rem);padding-block:clamp(2rem,4vw,3rem);border-bottom:1px solid var(--line)}
+@media (max-width:880px){.pie-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.pie-grid{grid-template-columns:1fr}}
+.pie h4{font-family:var(--ff-mono);font-size:var(--fs-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;font-weight:500}
+.pie ul{display:flex;flex-direction:column;gap:.55rem}
+.pie li a{font-size:var(--fs-sm);color:var(--muted);transition:color var(--dur) var(--ease)}
+.pie li a:hover{color:var(--copper)}
+.pie .firma-pie{font-family:var(--ff-display);font-variation-settings:"opsz" 72;font-size:1.7rem;line-height:1.1;margin-bottom:.7rem;letter-spacing:-.02em}
+.pie .legal{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.8rem 2rem;justify-content:space-between;font-family:var(--ff-mono);font-size:.63rem;letter-spacing:.08em;color:var(--muted-2)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .routing .pulse{stroke-dashoffset:0;opacity:.55}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="head" lang="es-MX">
+  <div class="wrap head-in">
+    <a class="marca" href="#inicio">
+      <span class="via" aria-hidden="true"></span>
+      Computo Integral<span>&nbsp;· Implementando eficiencia</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a class="opt" href="#divisiones">Divisiones</a>
+      <a class="opt" href="#servicios">Servicios</a>
+      <a href="#sistemas">Sistemas</a>
+      <a class="opt" href="#polizas">Pólizas</a>
+      <a class="opt" href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" lang="es-MX">
+
+  <!-- ══════════ PORTADA ══════════ -->
+  <section class="hero" id="inicio">
+    <svg class="routing" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <g class="trace">
+        <path d="M-20 96 H210 L266 40 H520 L566 86 H1220"/>
+        <path d="M-20 168 H150 L206 112 H430"/>
+        <path d="M1220 214 H860 L804 158 H612"/>
+        <path d="M-20 300 H240 L316 224 H560 L616 280 H1220"/>
+        <path d="M-20 392 H330 L392 454 H700 L756 398 H1220"/>
+        <path d="M1220 494 H900 L844 550 H560"/>
+        <path d="M-20 552 H300 L356 496 H520"/>
+        <path d="M700 620 V520 L756 464 V300"/>
+        <path d="M980 620 V560 L1036 504 V330 L1092 274 V-20"/>
+        <path d="M420 -20 V60 L364 116 V300 L420 356 V620"/>
+      </g>
+      <g class="via-pad">
+        <circle cx="266" cy="40" r="5"/><circle cx="316" cy="224" r="5"/>
+        <circle cx="392" cy="454" r="5"/><circle cx="804" cy="158" r="5"/>
+        <circle cx="756" cy="398" r="5"/><circle cx="1036" cy="504" r="5"/>
+        <circle cx="364" cy="116" r="5"/><circle cx="844" cy="550" r="5"/>
+      </g>
+      <path class="pulse" d="M-20 300 H240 L316 224 H560 L616 280 H1220"/>
+    </svg>
+
+    <div class="wrap hero-in">
+      <div class="eyebrow">
+        <span class="via" aria-hidden="true"></span>
+        <span class="mono">Implementando eficiencia</span>
+        <span class="mono" style="color:var(--muted-2)">CDMX · Edo. Méx. · Toluca</span>
+      </div>
+
+      <h1 class="display">Que <em>nada</em> se detenga.</h1>
+
+      <p class="lede">Infraestructura que sostiene, software que opera y campañas que traen clientes. Reparamos a nivel componente, tendemos la red, montamos las cámaras, construimos el sistema y administramos la pauta — con un solo responsable de la corriente eléctrica al cliente nuevo.</p>
+
+      <div class="cta-fila">
+        <a class="btn btn--solid" href="https://wa.me/525546977863" target="_blank" rel="noopener">Atención por WhatsApp <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--quiet" href="#servicios">Ver capacidades</a>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="stats">
+        <div><strong>Nivel<br>componente</strong><span class="mono">Microsoldadura en placa</span></div>
+        <div><strong>Aspel</strong><span class="mono">SAE · COI · NOI · PROD</span></div>
+        <div><strong>Multimarca</strong><span class="mono">Mac · PC · servidores</span></div>
+        <div><strong>Remoto<br>y en sitio</strong><span class="mono">Lun a Vie · 9:00–18:00</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 01 DIVISIONES ══════════ -->
+  <section class="sec" id="divisiones">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 01</span><span class="mono">Las tres casas</span><span class="linea"></span><span class="mono cuenta tnum">01 / 09</span></div>
+      <div class="sec-head">
+        <h2>Una empresa se sostiene sobre tres capas. Casi siempre las contrata por separado.</h2>
+        <p>Y a tres proveedores que no se hablan entre sí. Aquí la infraestructura la sostenemos nosotros, el software lo construye <strong style="color:var(--ink);font-weight:500">MAW Soluciones</strong> —nuestra alianza de desarrollo— y la demanda la opera <strong style="color:var(--ink);font-weight:500">COC</strong>. La ventaja no es ofrecer las tres cosas: es que sean el mismo equipo.</p>
+      </div>
+
+      <div class="casas">
+        <article class="casa">
+          <div class="casa-top"><span class="via" aria-hidden="true"></span><span class="rol">CI · El piso</span></div>
+          <h3>Infraestructura<br>y soporte</h3>
+          <p>Que el equipo encienda, la red aguante y nadie pierda un día de trabajo. Diagnóstico honesto, refacción declarada y reporte por escrito.</p>
+          <ul>
+            <li>Reparación a nivel componente</li>
+            <li>Videovigilancia y control de acceso</li>
+            <li>Redes y cableado estructurado</li>
+            <li>Servidores, respaldo y continuidad</li>
+            <li>Ciberseguridad y control de identidad</li>
+          </ul>
+          <a class="liga" href="#servicios">Ver la hoja de servicios <span aria-hidden="true">↓</span></a>
+        </article>
+
+        <article class="casa">
+          <div class="casa-top"><span class="via" aria-hidden="true"></span><span class="rol">MAW · Lo que corre encima</span></div>
+          <h3>Desarrollo<br>y sistemas</h3>
+          <p><em>Estrategia. Tecnología. Resultados.</em> Más de siete años construyendo sitios, sistemas a la medida y automatización para empresas en México.</p>
+          <ul>
+            <li>Sistemas a la medida: ERP y CRM</li>
+            <li>Portales y comercio electrónico</li>
+            <li>Integraciones, APIs y Aspel</li>
+            <li>Automatización e IA aplicada</li>
+            <li>Mantenimiento evolutivo</li>
+          </ul>
+          <a class="liga" href="https://mawsoluciones.com/" target="_blank" rel="noopener">mawsoluciones.com <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="casa">
+          <div class="casa-top"><span class="via" aria-hidden="true"></span><span class="rol">COC · Lo que llega</span></div>
+          <h3>Centro de Operaciones<br>Comerciales</h3>
+          <p>Existe el NOC para la red y el SOC para la seguridad. Este es el equivalente comercial: la misma disciplina de monitoreo y respuesta, aplicada a su demanda.</p>
+          <ul>
+            <li>Google Ads y Meta Ads</li>
+            <li>Generación de clientes potenciales</li>
+            <li>Landing pages y embudos medidos</li>
+            <li>Producción y edición de contenido</li>
+            <li>Tablero en vivo y reporte mensual</li>
+          </ul>
+          <a class="liga" href="#contacto">Solicitar propuesta <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 02 SERVICIOS ══════════ -->
+  <section class="sec" id="servicios">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 02</span><span class="mono">Infraestructura y soporte · Hoja de servicios</span><span class="linea"></span><span class="mono cuenta tnum">02 / 09</span></div>
+      <div class="sec-head">
+        <h2>Reparamos lo que otros reemplazan.</h2>
+        <p>Es literal y es la prueba de lo demás: quien mide una línea de alimentación en una placa contra el esquemático, también sabe por qué se cae su red los martes. Seis frentes, un mismo criterio de ingeniería.</p>
+      </div>
+
+      <div class="hoja">
+        <article class="fila">
+          <div class="cod">CI&#8209;01</div>
+          <div>
+            <h3>Laboratorio de microelectrónica</h3>
+            <p class="promesa">Diagnóstico en banco con fuente DC, medición de consumo y lectura de líneas contra esquemático y boardview. Se interviene el circuito, no el módulo completo.</p>
+            <p class="casos">Un despacho contable con un MacBook Pro que no encendía y once años de archivos sin respaldo. Un iPad de punto de venta que dejó de cargar: se cambió el circuito, no el equipo.</p>
+          </div>
+          <div class="specs">
+            <span>Microsoldadura BGA y SMD</span><span>Reballing y reflow</span><span>IC de carga y de energía</span><span>Reconstrucción de pistas</span><span>Daño por líquido</span><span>Limpieza ultrasónica</span><span>Recuperación de datos</span><span>NAND soldada · placa donante</span><span>Pantallas y baterías</span><span>Mac · PC · celulares</span>
+          </div>
+        </article>
+
+        <article class="fila">
+          <div class="cod">CI&#8209;02</div>
+          <div>
+            <h3>Redes y cableado estructurado</h3>
+            <p class="promesa">Una red documentada, certificada y diseñada para los próximos diez años. Se tiende una vez: canalizada, etiquetada bajo ANSI/TIA‑606 y certificada punto por punto.</p>
+            <p class="casos">Nave en Toluca con oficinas, piso de producción y patio bajo un solo diseño. Corporativo en Santa Fe recableado en fin de semana, operando el lunes.</p>
+          </div>
+          <div class="specs">
+            <span>Cat6 y Cat6A</span><span>Certificación por nodo</span><span>Rack y patch panel</span><span>Fibra OM3 · OM4 · OS2</span><span>Fusión y distribuidores</span><span>Switching administrable</span><span>VLAN y PoE+</span><span>WiFi con site survey</span><span>Balanceo de dos enlaces</span>
+          </div>
+        </article>
+
+        <article class="fila">
+          <div class="cod">CI&#8209;03</div>
+          <div>
+            <h3>Seguridad electrónica y control de acceso</h3>
+            <p class="promesa">Ver lo que pasa, saber quién entró y poder comprobarlo después. Cámaras donde sirven, con cobertura calculada por ángulo útil y retención real en días.</p>
+            <p class="casos">Nave industrial con doce cámaras y treinta días de grabación. Consultorio que necesitaba acceso biométrico restringido por horario.</p>
+          </div>
+          <div class="specs">
+            <span>CCTV IP y analógico</span><span>Domo · bullet · turret</span><span>NVR dimensionado</span><span>Switch PoE dedicado</span><span>ONVIF</span><span>Exterior IP66 · IR</span><span>Acceso remoto</span><span>Biométrico y tarjeta</span><span>Chapa eléctrica</span><span>Videoportero</span>
+          </div>
+        </article>
+
+        <article class="fila">
+          <div class="cod">CI&#8209;04</div>
+          <div>
+            <h3>Servidores, virtualización y continuidad</h3>
+            <p class="promesa">Sus datos siguen ahí aunque falle el disco, el equipo o el edificio. Respaldo 3‑2‑1 con pruebas de restauración calendarizadas y RPO/RTO declarados por escrito.</p>
+            <p class="casos">Distribuidora con Aspel SAE en un escritorio compartido, migrada a servidor con doce usuarios. Constructora que perdió un disco un viernes y no paró.</p>
+          </div>
+          <div class="specs">
+            <span>Memoria ECC</span><span>RAID 1 · 5 · 6 · 10</span><span>Disco hot‑spare</span><span>Monitoreo SMART</span><span>Hyper‑V · VMware · Proxmox</span><span>Migración P2V</span><span>Directorio Activo</span><span>DNS y DHCP</span><span>Respaldo 3‑2‑1</span><span>UPS con apagado ordenado</span>
+          </div>
+        </article>
+
+        <article class="fila">
+          <div class="cod">CI&#8209;05</div>
+          <div>
+            <h3>Ciberseguridad y control de identidad</h3>
+            <p class="promesa">Reducimos la superficie de ataque y dejamos evidencia de cada acceso. Con copia inmutable, porque un respaldo que el ransomware puede cifrar no es un respaldo.</p>
+            <p class="casos">Despacho jurídico que recibía facturas apócrifas a nombre de su director. Servidor de archivos cifrado: contención, restauración limpia y rediseño del respaldo.</p>
+          </div>
+          <div class="specs">
+            <span>Firewall / UTM con IPS</span><span>VPN sitio a sitio</span><span>Segmentación por VLAN</span><span>EDR administrado</span><span>MFA y políticas por GPO</span><span>SPF · DKIM · DMARC</span><span>Filtrado antiphishing</span><span>Copia inmutable</span><span>Bitácora de accesos</span>
+          </div>
+        </article>
+
+        <article class="fila">
+          <div class="cod">CI&#8209;06</div>
+          <div>
+            <h3>Soporte gestionado, pólizas y Aspel</h3>
+            <p class="promesa">Somos soporte certificado Aspel: instalación, configuración multiempresa, migración y timbrado. Todo bajo póliza, con tiempo de respuesta comprometido por escrito.</p>
+            <p class="casos">Despacho contable con SAE y COI en red multiempresa. Empresa de sesenta equipos con preventivo calendarizado y bitácora mensual.</p>
+          </div>
+          <div class="specs">
+            <span>Aspel SAE</span><span>Aspel COI</span><span>Aspel NOI</span><span>Aspel PROD</span><span>Timbrado CFDI 4.0</span><span>Soporte remoto</span><span>Mantenimiento preventivo</span><span>Windows y Office</span><span>Licenciamiento</span><span>Inventario de activos</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 03 SISTEMAS EN OPERACIÓN ══════════ -->
+  <section class="sec" id="sistemas">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 03</span><span class="mono">Sistemas en operación · Dé un vistazo</span><span class="linea"></span><span class="mono cuenta tnum">03 / 09</span></div>
+      <div class="sec-head">
+        <h2>¿Necesita un sistema especializado? Aquí hay uno funcionando.</h2>
+        <p>No enseñamos capturas de pantalla: abrimos el sistema. Entre y navéguelo — está en línea, con datos de demostración y cuentas de ejemplo sin contraseña.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Sitios y sistemas">
+        <button class="tab" id="tab-altamira" role="tab" aria-selected="true" aria-controls="panel-altamira" type="button">
+          <span class="via" aria-hidden="true"></span>Colegio Altamira · Sistema escolar
+        </button>
+        <button class="tab" id="tab-maw" role="tab" aria-selected="false" aria-controls="panel-maw" tabindex="-1" type="button">
+          MAW Soluciones · La alianza
+        </button>
+      </div>
+
+      <div class="panel" id="panel-altamira" role="tabpanel" aria-labelledby="tab-altamira" tabindex="0">
+        <div class="sistema">
+          <div class="ventana" data-url="https://demo-five-xi-29.vercel.app/#/publico" data-title="Demostración del sistema escolar Colegio Altamira">
+            <div class="ventana-bar">
+              <span class="via" aria-hidden="true"></span>
+              <span class="ventana-url">demo-five-xi-29.vercel.app/#/publico</span>
+              <span class="envivo"><span class="dot" aria-hidden="true"></span>En vivo</span>
+            </div>
+            <div class="ventana-stage">
+              <div class="mock mock-altamira" aria-hidden="true">
+                <div class="m-nav">
+                  <div class="m-logo"><div class="m-badge">CA</div><div><div style="font:600 1em/1.2 var(--ff-body)">Colegio Altamira</div><div style="font:500 .56em/1 var(--ff-mono);letter-spacing:.2em;color:#8A97A8;margin-top:.4em">CICLO 2025 – 2026</div></div></div>
+                  <div class="m-links"><span>El colegio</span><span>Oferta</span><span>Claustro</span><span>Admisiones</span><span class="m-cta">Acceder al portal</span></div>
+                </div>
+                <div class="m-grid">
+                  <div class="m-card">
+                    <div class="m-badge" style="margin-bottom:1.2em">CA</div>
+                    <div class="m-kicker">Ciclo 2025 – 2026 · Santiago de Querétaro</div>
+                    <div class="m-h">Rigor y oficio,<i>desde 1978</i></div>
+                    <div class="m-p">Formar personas que piensen con rigor, escriban con claridad y trabajen con oficio.</div>
+                    <div class="m-btns"><span class="m-b1">→ Entrar al portal</span><span class="m-b2">Conocer al claustro</span></div>
+                    <div class="m-stats">
+                      <div><b>5</b><span>Alumnos<br>inscritos</span></div>
+                      <div><b>8</b><span>Materias<br>del ciclo</span></div>
+                      <div><b>8.2</b><span>Promedio<br>general</span></div>
+                      <div><b>47</b><span>Años de<br>trayectoria</span></div>
+                    </div>
+                  </div>
+                  <div class="m-card">
+                    <div style="font:600 1.05em/1.2 var(--ff-body)">Avisos del colegio</div>
+                    <div style="font:400 .8em/1.4 var(--ff-body);color:#7E8B9C;margin-top:.4em">Publicados por dirección</div>
+                    <div class="m-aviso" style="margin-top:1em">
+                      <div class="m-fecha"><span>12 NOV 2025</span><span class="m-pri">● Prioridad alta</span></div>
+                      <div class="m-at">Calendario del tercer parcial</div>
+                      <div class="m-ab">El tercer parcial se aplica del 1 al 5 de diciembre en el horario normal de cada materia.</div>
+                    </div>
+                    <div class="m-aviso">
+                      <div class="m-fecha"><span>10 NOV 2025</span></div>
+                      <div class="m-at">Suspensión de labores: 17 de noviembre</div>
+                      <div class="m-ab">El lunes 17 no habrá clases por consejo técnico. Las asesorías se recorren al martes 18.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ventana-foot">
+              <button class="mini mini--load" type="button" data-load>Cargar aquí <span aria-hidden="true">▸</span></button>
+              <span class="aviso">Este visor bloquea sitios externos incrustados. Ábralo en una pestaña nueva.</span>
+              <a class="mini" href="https://demo-five-xi-29.vercel.app/#/publico" target="_blank" rel="noopener">Abrir en vivo <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+
+          <div>
+            <h3>Un colegio completo, de la inscripción al estado de cuenta.</h3>
+            <p class="lede">Sitio público y portal privado en un solo sistema. Cada familia entra y ve el expediente académico en tiempo real; dirección publica avisos y el claustro captura calificaciones. Es una demostración: el colegio, las personas y los montos son ficticios.</p>
+            <ul class="capas">
+              <li><span class="k">Público</span><span class="v">Oferta del ciclo, claustro con reseñas, admisiones, costos y avisos de dirección.</span></li>
+              <li><span class="k">Portal</span><span class="v">Calificaciones por parcial, asistencia, materiales, entregas y estado de cuenta.</span></li>
+              <li><span class="k">Roles</span><span class="v">Dirección, profesorado y alumnado, cada uno con su vista y sus permisos.</span></li>
+              <li><span class="k">Acceso</span><span class="v">Cuentas de ejemplo, sin contraseña. Entre con cualquiera y recórralo.</span></li>
+              <li><span class="k">A la medida</span><span class="v">El mismo esqueleto se ajusta a clínicas, despachos, escuelas o distribuidoras.</span></li>
+            </ul>
+            <div class="cta-fila" style="margin-top:1.6rem">
+              <a class="btn btn--solid" href="https://demo-five-xi-29.vercel.app/#/publico" target="_blank" rel="noopener">Entrar al sistema <span class="arrow" aria-hidden="true">↗</span></a>
+              <a class="btn btn--quiet" href="#contacto">Quiero uno así</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-maw" role="tabpanel" aria-labelledby="tab-maw" tabindex="0" hidden>
+        <div class="sistema">
+          <div class="ventana" data-url="https://mawsoluciones.com/" data-title="Sitio de MAW Soluciones">
+            <div class="ventana-bar">
+              <span class="via" aria-hidden="true"></span>
+              <span class="ventana-url">mawsoluciones.com</span>
+              <span class="envivo"><span class="dot" aria-hidden="true"></span>En vivo</span>
+            </div>
+            <div class="ventana-stage">
+              <div class="mock mock-maw" aria-hidden="true">
+                <div class="m-nav">
+                  <div class="m-word">MAW<small>SOLUCIONES</small></div>
+                  <div class="m-links"><span>Inicio</span><span>Servicios</span><span>Blog</span><span>Contacto</span></div>
+                </div>
+                <div class="m-orb"></div><div class="m-ring"></div><div class="m-ring2"></div>
+                <div class="m-h">Estrategia. Tecnología. Resultados.</div>
+              </div>
+            </div>
+            <div class="ventana-foot">
+              <button class="mini mini--load" type="button" data-load>Cargar aquí <span aria-hidden="true">▸</span></button>
+              <span class="aviso">Este visor bloquea sitios externos incrustados. Ábralo en una pestaña nueva.</span>
+              <a class="mini" href="https://mawsoluciones.com/" target="_blank" rel="noopener">Abrir en vivo <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+
+          <div>
+            <h3>La casa que construye el software.</h3>
+            <p class="lede">MAW Soluciones es nuestra alianza de desarrollo y medios: agencia en Ciudad de México con más de siete años transformando empresas con tecnología. Cuando el proyecto pide sistema, sitio o pauta, entra MAW.</p>
+            <ul class="capas">
+              <li><span class="k">Desarrollo</span><span class="v">Sitios web, comercio electrónico y sistemas o apps a la medida.</span></li>
+              <li><span class="k">Automatización</span><span class="v">Integraciones, flujos automáticos e inteligencia artificial aplicada.</span></li>
+              <li><span class="k">Contenido</span><span class="v">Producción audiovisual, edición y estudio propio en renta.</span></li>
+              <li><span class="k">Pauta</span><span class="v">Administración de campañas y generación de clientes potenciales.</span></li>
+              <li><span class="k">Trayectoria</span><span class="v">Más de 250 sitios, 10 aplicaciones y 2,000 usuarios activos en operación.</span></li>
+            </ul>
+            <div class="cta-fila" style="margin-top:1.6rem">
+              <a class="btn btn--solid" href="https://mawsoluciones.com/" target="_blank" rel="noopener">Visitar mawsoluciones.com <span class="arrow" aria-hidden="true">↗</span></a>
+              <a class="btn btn--quiet" href="https://wa.me/525633774723" target="_blank" rel="noopener">WhatsApp MAW</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 04 PROCESO ══════════ -->
+  <section class="sec" id="proceso">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 04</span><span class="mono">Cómo trabajamos</span><span class="linea"></span><span class="mono cuenta tnum">04 / 09</span></div>
+      <div class="sec-head">
+        <h2>Cinco pasos. Ninguno se salta.</h2>
+        <p>El orden importa: casi todos los problemas caros que nos han tocado venían de un diagnóstico que nadie hizo. Es la misma secuencia para una placa, para una red y para un sistema.</p>
+      </div>
+      <div class="proceso">
+        <article class="paso"><div class="n tnum" aria-hidden="true">01</div><h3>Diagnóstico</h3><p>Revisión en banco o levantamiento en sitio. Medimos antes de opinar.</p></article>
+        <article class="paso"><div class="n tnum" aria-hidden="true">02</div><h3>Plano</h3><p>Alcance, refacciones, tiempo y precio en firme, por escrito, antes de empezar.</p></article>
+        <article class="paso"><div class="n tnum" aria-hidden="true">03</div><h3>Construcción</h3><p>Se trabaja en horario acordado para no parar la operación. Reporte de avance.</p></article>
+        <article class="paso"><div class="n tnum" aria-hidden="true">04</div><h3>Puesta en marcha</h3><p>Pruebas frente al cliente, memoria técnica, credenciales y garantía por escrito.</p></article>
+        <article class="paso"><div class="n tnum" aria-hidden="true">05</div><h3>Evolución</h3><p>Póliza, mantenimiento calendarizado y un número al que sí contestan.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 05 PÓLIZAS ══════════ -->
+  <section class="sec" id="polizas">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 05</span><span class="mono">Pólizas de mantenimiento</span><span class="linea"></span><span class="mono cuenta tnum">05 / 09</span></div>
+      <div class="sec-head">
+        <h2>Soporte contratado sale más barato que soporte de emergencia.</h2>
+        <p>Tres niveles, según qué tanto duele que su operación se detenga una hora. «Respuesta» significa inicio de atención por un ingeniero, no cierre del incidente.</p>
+      </div>
+      <div class="polizas">
+        <article class="poliza">
+          <h3>Núcleo</h3>
+          <p class="para">Operaciones estables que requieren un respaldo técnico confiable.</p>
+          <div class="sla"><b class="tnum">4 h</b><span class="mono">Respuesta remota hábil</span></div>
+          <ul>
+            <li>Soporte remoto ilimitado en horario</li>
+            <li>Una visita preventiva al semestre</li>
+            <li>Verificación mensual de respaldos</li>
+            <li>Antivirus administrado</li>
+            <li>Inventario básico de equipos</li>
+            <li>Reporte ejecutivo semestral</li>
+          </ul>
+        </article>
+        <article class="poliza poliza--dest">
+          <span class="pill">Más contratada</span>
+          <h3>Continuidad</h3>
+          <p class="para">Empresas donde una caída detiene la facturación o la producción.</p>
+          <div class="sla"><b class="tnum">2 h</b><span class="mono">Respuesta remota hábil</span></div>
+          <ul>
+            <li>Todo lo de Núcleo, con prioridad en cola</li>
+            <li>Preventiva trimestral y correctivas incluidas</li>
+            <li>Monitoreo de servidores y enlaces</li>
+            <li>Prueba de restauración trimestral</li>
+            <li>Revisión de reglas de firewall</li>
+            <li>Diagrama de red actualizado</li>
+            <li>WhatsApp de emergencias</li>
+          </ul>
+        </article>
+        <article class="poliza">
+          <h3>Élite</h3>
+          <p class="para">Operación crítica, multisitio o con tolerancia mínima a interrupción.</p>
+          <div class="sla"><b class="tnum">1 h</b><span class="mono">Respuesta remota hábil</span></div>
+          <ul>
+            <li>Todo lo de Continuidad, con prioridad absoluta</li>
+            <li>Preventiva mensual y correctivas ilimitadas</li>
+            <li>Monitoreo de red, respaldos, CCTV y endpoints</li>
+            <li>Restauración probada y documentada cada mes</li>
+            <li>EDR, revisión de accesos y parcheo programado</li>
+            <li>Equipo de préstamo para equipos críticos</li>
+            <li>Ingeniero senior asignado a la cuenta</li>
+          </ul>
+        </article>
+      </div>
+      <p class="mono" style="margin-top:1.4rem;color:var(--muted-2);text-transform:none;letter-spacing:.05em;line-height:1.6">Respuesta en sitio: siguiente día hábil en Núcleo, mismo día hábil en Continuidad y 4 horas en Élite, dentro de la zona de cobertura. La póliza se cotiza por número de equipos y sedes; fuera de cobertura se cotiza traslado.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ § 06 NOSOTROS ══════════ -->
+  <section class="sec nosotros" id="nosotros">
+    <span class="filigrana" aria-hidden="true">EFICIENCIA</span>
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 06</span><span class="mono">Nosotros</span><span class="linea"></span><span class="mono cuenta tnum">06 / 09</span></div>
+      <div class="relato">
+        <div class="cuerpo">
+          <p>Empezamos reparando computadoras. Seguimos haciéndolo, con la misma disciplina: abrir el equipo, entender la falla y resolverla al nivel donde de verdad está. Esa costumbre —no dar por perdido lo que se puede recuperar— define cómo trabajamos todo lo demás.</p>
+          <p>Con los años, nuestros clientes dejaron de pedirnos solo reparaciones. Pidieron redes que aguantaran, servidores que no se cayeran, cámaras que sí grabaran y respaldos que sí restauraran. Después pidieron el sistema que corre su operación, y luego las campañas que les traen clientes. Crecimos hacia donde nos llevó su confianza, no hacia donde estaba la moda.</p>
+          <p>Hoy somos tres casas con un mismo criterio: la tecnología está para funcionar. No prometemos transformación. Prometemos que su operación no se detenga, que alguien conteste cuando llame y que quien llegue a su oficina sepa exactamente lo que está haciendo.</p>
+        </div>
+        <ul class="pruebas">
+          <li><b>Reparación a nivel componente</b><span>Intervenimos la placa, no solo cambiamos la pieza completa.</span></li>
+          <li><b>Soporte certificado Aspel</b><span>SAE, COI, NOI y PROD, por gente que conoce el sistema.</span></li>
+          <li><b>Multimarca, sin agenda comercial</b><span>Recomendamos lo que conviene a su operación, no lo que nos conviene vender.</span></li>
+          <li><b>Remoto y en sitio</b><span>Lo que se resuelve a distancia no espera a un traslado.</span></li>
+          <li><b>Línea de emergencia real</b><span>Una caída de servidor no se levanta con un formulario de contacto.</span></li>
+          <li><b>Un solo responsable</b><span>La campaña cae en un sistema que construimos, sobre una red que mantenemos.</span></li>
+        </ul>
+      </div>
+
+      <div class="manifiesto">
+        <p>La tecnología no es el negocio de nuestros clientes: es lo que les permite tenerlo. Por eso trabajamos para que sea invisible.</p>
+        <div class="firma"><span class="via" aria-hidden="true"></span><span class="mono">Computo Integral · Implementando eficiencia</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 07 COBERTURA ══════════ -->
+  <section class="sec" id="cobertura">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 07</span><span class="mono">Cobertura</span><span class="linea"></span><span class="mono cuenta tnum">07 / 09</span></div>
+      <div class="sec-head">
+        <h2>En sitio en el Valle de México y Toluca. Remoto en todo el país.</h2>
+        <p>La visita se agenda el mismo día cuando la falla detiene la operación. Fuera de cobertura, atendemos por acceso remoto y cotizamos traslado y estadía.</p>
+      </div>
+      <div class="cobertura">
+        <article class="plaza">
+          <h3>Ciudad de México</h3>
+          <span class="geo tnum">19.4326° N · 99.1332° O</span>
+          <p>Todas las alcaldías. Es la base de operación y donde está el laboratorio de microelectrónica.</p>
+        </article>
+        <article class="plaza">
+          <h3>Estado de México</h3>
+          <span class="geo tnum">19.4785° N · 99.2396° O</span>
+          <p>Zona conurbada y corredores industriales: cableado, fibra entre naves, cámaras y enlaces entre plantas.</p>
+        </article>
+        <article class="plaza">
+          <h3>Toluca</h3>
+          <span class="geo tnum">19.2926° N · 99.6569° O</span>
+          <p>Valle de Toluca y alrededores. Visitas programadas y atención a pólizas corporativas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 08 PREGUNTAS ══════════ -->
+  <section class="sec" id="preguntas">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 08</span><span class="mono">Preguntas frecuentes</span><span class="linea"></span><span class="mono cuenta tnum">08 / 09</span></div>
+      <div class="sec-head">
+        <h2>Lo que casi siempre nos preguntan antes de contratar.</h2>
+        <p>Si su duda no está aquí, escríbanos por WhatsApp. Contestamos en horario hábil y no cobramos por preguntar.</p>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>¿Cuánto tarda un diagnóstico y tiene costo?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">En laboratorio, el diagnóstico de un equipo estándar toma de 24 a 72 horas hábiles; las fallas a nivel componente requieren medición en placa contra esquemático y pueden extenderse. Se cobra una cuota de diagnóstico que se acredita al costo total si usted autoriza la reparación. Si decide no repararlo, le devolvemos el equipo con el reporte técnico de lo encontrado. Nunca iniciamos un trabajo sin autorización.</p>
+        </details>
+        <details>
+          <summary>¿Qué significa reparar «a nivel componente» y por qué importa?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Significa localizar el componente exacto que falló en la tarjeta lógica —un circuito integrado, una resistencia, un conector— y reemplazarlo con microsoldadura, en lugar de cambiar la tarjeta completa. Importa por dos razones: suele costar una fracción, y conserva su equipo y su información originales.</p>
+        </details>
+        <details>
+          <summary>¿Pueden recuperar mi información si el equipo ya no enciende?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">En la mayoría de los casos sí, incluso con la placa dañada: extraemos la unidad o trabajamos directamente sobre la memoria soldada, con transferencia a placa donante cuando hace falta. La recuperación de datos se cotiza aparte de la reparación. Si el medio tiene daño físico severo, se lo decimos antes de cobrar el intento.</p>
+        </details>
+        <details>
+          <summary>¿Qué garantía dan?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Garantía por escrito sobre la falla intervenida y la refacción instalada, con vigencia definida en la orden de servicio. No cubre daño posterior por líquido, caída, sobrevoltaje ni intervención de terceros, y se pierde si el equipo se abre en otro taller.</p>
+        </details>
+        <details>
+          <summary>¿Usan refacciones originales?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Priorizamos refacción original o de grado equivalente, y le decimos con claridad cuál se va a instalar antes de que autorice. En reparación a nivel componente el reemplazo es del circuito integrado específico, no del módulo completo. Cada refacción queda asentada en la orden de servicio.</p>
+        </details>
+        <details>
+          <summary>¿Trabajan en sitio o hay que llevar el equipo?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Ambos. Redes, servidores, CCTV, control de acceso y soporte a usuarios se atienden en sitio; la reparación a nivel componente siempre se realiza en laboratorio, con equipo especializado. Muchas incidencias de software se resuelven el mismo día por soporte remoto.</p>
+        </details>
+        <details>
+          <summary>¿Pueden atender a una empresa que ya tiene su propia área de sistemas?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Es de lo que más hacemos. Entramos como especialistas donde el área interna no llega: reparación a nivel componente, cableado certificado, videovigilancia, migraciones de servidor o desarrollo a la medida, coordinándonos con su responsable de TI.</p>
+        </details>
+        <details>
+          <summary>¿Se puede contratar solo el desarrollo o solo las campañas?<span class="sig" aria-hidden="true">+</span></summary>
+          <p class="resp">Sí. Las tres casas se contratan por separado. Lo que no cambia es que usted trata con un solo interlocutor, aunque el trabajo lo ejecuten equipos distintos. Emitimos CFDI 4.0 con su uso y régimen fiscal correctos; las pólizas se facturan por periodo y los proyectos contra avance acordado.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ § 09 CONTACTO ══════════ -->
+  <section class="sec" id="contacto" style="border-bottom:0">
+    <div class="wrap">
+      <div class="folio"><span class="mono n">§ 09</span><span class="mono">Contacto</span><span class="linea"></span><span class="mono cuenta tnum">09 / 09</span></div>
+      <div class="contacto">
+        <div>
+          <h2 class="display">Cuéntenos qué se detuvo.</h2>
+          <p class="lede" style="margin-top:1.2rem">Un mensaje por WhatsApp basta para empezar. Si es una emergencia, dígalo en la primera línea y entra directo con un ingeniero.</p>
+          <div class="cta-fila">
+            <a class="btn btn--solid" href="https://wa.me/525546977863" target="_blank" rel="noopener">WhatsApp 55 4697 7863 <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--quiet" href="mailto:contacto@computointegral.com">Escribir correo</a>
+          </div>
+
+          <svg class="sello" viewBox="0 0 200 200" role="img" aria-label="Sello de Computo Integral: Ciudad de México, remoto y en sitio">
+            <circle cx="100" cy="100" r="96" fill="none" stroke="var(--line)" stroke-width="1"/>
+            <circle cx="100" cy="100" r="84" fill="none" stroke="var(--line)" stroke-width="1"/>
+            <defs><path id="aro" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+            <g class="giro">
+              <text font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="3.2" fill="var(--muted)">
+                <textPath href="#aro">COMPUTO INTEGRAL · CIUDAD DE MÉXICO · REMOTO Y EN SITIO · </textPath>
+              </text>
+            </g>
+            <text x="100" y="108" text-anchor="middle" font-family="Bodoni Moda, serif" font-weight="700" font-size="44" fill="var(--copper)">CI</text>
+            <line x1="76" y1="122" x2="124" y2="122" stroke="var(--line-2)" stroke-width="1"/>
+          </svg>
+        </div>
+
+        <dl class="guias">
+          <div class="r"><dt>WhatsApp</dt><span class="pts" aria-hidden="true"></span><dd><a href="https://wa.me/525546977863" target="_blank" rel="noopener">55 4697 7863</a></dd></div>
+          <div class="r"><dt>Correo</dt><span class="pts" aria-hidden="true"></span><dd><a href="mailto:contacto@computointegral.com">contacto@computointegral.com</a></dd></div>
+          <div class="r"><dt>Horario</dt><span class="pts" aria-hidden="true"></span><dd>Lunes a viernes, 9:00 a 18:00 h</dd></div>
+          <div class="r"><dt>En sitio</dt><span class="pts" aria-hidden="true"></span><dd>CDMX · Estado de México · Toluca</dd></div>
+          <div class="r"><dt>Remoto</dt><span class="pts" aria-hidden="true"></span><dd>Todo México</dd></div>
+          <div class="r"><dt>Desarrollo</dt><span class="pts" aria-hidden="true"></span><dd><a href="https://mawsoluciones.com/" target="_blank" rel="noopener">mawsoluciones.com</a></dd></div>
+          <div class="r"><dt>MAW WhatsApp</dt><span class="pts" aria-hidden="true"></span><dd><a href="https://wa.me/525633774723" target="_blank" rel="noopener">56 3377 4723</a></dd></div>
+          <div class="r"><dt>Redes</dt><span class="pts" aria-hidden="true"></span><dd><a href="https://facebook.com/computointegral" target="_blank" rel="noopener">Facebook</a> · <a href="https://youtube.com/user/computointegral" target="_blank" rel="noopener">YouTube</a> · <a href="https://twitter.com/computointegral" target="_blank" rel="noopener">X</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie" lang="es-MX">
+  <div class="wrap">
+    <p class="cierre">Infraestructura que sostiene. Software que opera. Campañas que traen clientes. <em>Un solo responsable.</em></p>
+    <div class="pie-grid">
+      <div>
+        <div class="firma-pie">Computo Integral</div>
+        <p style="color:var(--muted);font-size:var(--fs-sm);max-width:34ch">Implementando eficiencia. Infraestructura, sistemas y crecimiento para empresas en el Valle de México.</p>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#servicios">Reparación a nivel componente</a></li>
+          <li><a href="#servicios">Redes y cableado estructurado</a></li>
+          <li><a href="#servicios">Videovigilancia y accesos</a></li>
+          <li><a href="#servicios">Servidores y continuidad</a></li>
+          <li><a href="#polizas">Pólizas de mantenimiento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Las tres casas</h4>
+        <ul>
+          <li><a href="#divisiones">Computo Integral · Infraestructura</a></li>
+          <li><a href="https://mawsoluciones.com/" target="_blank" rel="noopener">MAW Soluciones ↗</a></li>
+          <li><a href="#divisiones">COC · Centro de Operaciones Comerciales</a></li>
+          <li><a href="#sistemas">Sistemas en operación</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/525546977863" target="_blank" rel="noopener">WhatsApp 55 4697 7863</a></li>
+          <li><a href="mailto:contacto@computointegral.com">contacto@computointegral.com</a></li>
+          <li><a href="https://facebook.com/computointegral" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://youtube.com/user/computointegral" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://twitter.com/computointegral" target="_blank" rel="noopener">X · Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Computo Integral · Todos los derechos reservados</span>
+      <span>Colegio Altamira es una demostración de producto con datos ficticios</span>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfessionalService",
+  "name":"Computo Integral",
+  "slogan":"Implementando eficiencia",
+  "description":"Reparación de equipo de cómputo y celulares a nivel componente, videovigilancia y control de acceso, redes y cableado estructurado, servidores y soporte de TI para empresas. Desarrollo de sistemas a la medida con MAW Soluciones y administración de campañas publicitarias y contenido con COC, Centro de Operaciones Comerciales.",
+  "url":"https://www.computointegral.com/",
+  "email":"contacto@computointegral.com",
+  "telephone":"+52-55-4697-7863",
+  "priceRange":"$$",
+  "areaServed":[
+    {"@type":"City","name":"Ciudad de México"},
+    {"@type":"State","name":"Estado de México"},
+    {"@type":"City","name":"Toluca"}
+  ],
+  "openingHoursSpecification":[{
+    "@type":"OpeningHoursSpecification",
+    "dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens":"09:00","closes":"18:00"
+  }],
+  "sameAs":[
+    "https://facebook.com/computointegral",
+    "https://youtube.com/user/computointegral",
+    "https://twitter.com/computointegral"
+  ],
+  "makesOffer":[
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Reparación a nivel componente y microsoldadura"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Redes y cableado estructurado certificado"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Videovigilancia CCTV y control de acceso"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Servidores, virtualización y continuidad"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Ciberseguridad y control de identidad"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Soporte certificado Aspel SAE COI NOI PROD"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Desarrollo de sistemas y sitios a la medida"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Administración de campañas publicitarias y contenido"}}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  /* pestañas de sistemas */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function activar(tab){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    });
+  }
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ activar(tab); });
+    tab.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var next = tabs[(i + d + tabs.length) % tabs.length];
+      next.focus(); activar(next);
+    });
+  });
+
+  /* previsualización incrustada, con salida digna si el visor la bloquea */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-load]'), function(btn){
+    btn.addEventListener('click', function(){
+      var ventana = btn.closest('.ventana');
+      var stage = ventana.querySelector('.ventana-stage');
+      if (stage.querySelector('iframe')) return;
+      var marco = document.createElement('iframe');
+      marco.className = 'ventana-frame';
+      marco.src = ventana.getAttribute('data-url');
+      marco.title = ventana.getAttribute('data-title');
+      marco.setAttribute('loading','lazy');
+      marco.setAttribute('referrerpolicy','no-referrer-when-downgrade');
+      var cargo = false;
+      marco.addEventListener('load', function(){
+        cargo = true;
+        stage.classList.add('is-live');
+        btn.textContent = 'Cargado';
+        btn.disabled = true;
+      });
+      stage.appendChild(marco);
+      btn.textContent = 'Cargando…';
+      setTimeout(function(){
+        if (cargo) return;
+        marco.remove();
+        ventana.classList.add('is-blocked');
+      }, 4000);
+    });
+  });
+})();
+</script>
+</body>
+</html>
