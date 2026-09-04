@@ -10,12 +10,13 @@ Página única, sin dependencias ni build: todo vive en `index.html`
 | | Qué hace |
 |---|---|
 | **Computo Integral** | Infraestructura y soporte: reparación a nivel componente, redes y cableado estructurado, videovigilancia y control de acceso, servidores y continuidad, ciberseguridad, pólizas y Aspel. |
-| **MAW Soluciones** | Alianza de desarrollo: sistemas a la medida, portales y comercio electrónico, integraciones, automatización e IA. → [mawsoluciones.com](https://mawsoluciones.com/) |
+| **Desarrollo y sistemas** | Sistemas a la medida, portales y comercio electrónico, integraciones, automatización e IA. Construidos y operados por Computo Integral, con alianzas de desarrollo cuando el proyecto lo pide. |
 | **COC** | Centro de Operaciones Comerciales: Google Ads y Meta Ads, generación de clientes potenciales, landing pages, producción y edición de contenido. |
 
 ## Sistema en operación
 
-La sección **§ 03 Sistemas** muestra en vivo el sistema escolar
+La sección **§ 03 Sistemas** es también donde se muestra la alianza de desarrollo
+([MAW Soluciones](https://mawsoluciones.com/)) y donde corre en vivo el sistema escolar
 [Colegio Altamira](https://demo-five-xi-29.vercel.app/#/publico) — sitio público
 y portal privado con expediente académico en tiempo real. Es una demostración:
 alumnos, calificaciones, pagos y reseñas son ficticios.
