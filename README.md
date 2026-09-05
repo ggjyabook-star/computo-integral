@@ -23,9 +23,18 @@ alumnos, calificaciones, pagos y reseñas son ficticios.
 
 ## Diseño
 
-Sistema «Hairline»: cobre sobre grafito anodizado, con tema claro y oscuro
-automáticos según la preferencia del visitante. Tipografías Bodoni Moda
+Sistema «Hairline», paleta «Cianotipo y Níquel»: grafito frío, níquel desaturado
+y un solo pigmento azul tomado del logo, usado con avaricia. Tema claro y oscuro
+automáticos según la preferencia del visitante. Todos los pares de color cumplen
+WCAG AA en ambos temas; el isotipo usa tokens propios por tema porque sus hexes
+literales de marca son ilegibles sobre fondo oscuro. Tipografías Bodoni Moda
 (titulares), Archivo (texto) e IBM Plex Mono (códigos y fichas técnicas).
+
+## Proyectos y alianzas
+
+La sección **§ 03** abre tres pestañas con trabajo en vivo: el sistema escolar,
+el sitio de la alianza de desarrollo y [Vazal](https://vazal.vercel.app/ventas-y-rentas.html),
+maquinaria pesada en Metepec, cliente activo cuyo sitio operamos.
 
 ## Publicar
 
